@@ -1,0 +1,73 @@
+.centering {
+    width: 300px;
+    height: auto;
+    margin: 100px auto;
+}
+
+.custom-select {
+    width: 100%;
+    position: relative;
+    margin: 20px 0;
+}
+
+.custom-select select {
+    display: none;
+}
+
+.selected-item {
+    background: transparent;
+    border: 1px solid rgba(255 255 255 / 75%);
+    padding: 6px 12px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 99;
+}
+
+.selected-item:after {
+    display: inline-block;
+    content: "";
+    vertical-align: -.125em;
+    background-image: url("../images/svg/caret-up-fill.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    color: #fff;
+    position: absolute;
+    right: 10px;
+    transition: 0.5s;
+}
+
+.arrowanim.selected-item:after {
+    transform: rotate(180deg);
+}
+
+.item {
+    background: black;
+    padding: 6px 12px;
+    color: #fff;
+    border-top: none;
+    cursor: pointer;
+}
+
+.item:hover {
+    background: #2d2d2d;
+}
+
+.all-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.all-items-hide {
+    display: none;
+}
+
+.sdf {
+    border: 1px solid red;
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>N3Z.app</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #060814 0%, #10172f 100%);
+      color: #00ff99;
+      font-family: "Courier New", monospace;
+      text-align: center;
+    }
+
+    .box {
+      width: min(90%, 560px);
+      padding: 32px 24px;
+      border: 4px solid #00ff99;
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 20px rgba(0, 255, 153, 0.35);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: #ffd54a;
+      text-shadow: 0 0 8px rgba(255, 213, 74, 0.8);
+      text-transform: uppercase;
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .highlight {
+      color: #ff4dd8;
+    }
+
+    .blink {
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .small {
+      margin-top: 20px;
+      font-size: 0.95rem;
+      color: #7df9ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>WELCOME TO N3Z.APP</h1>
+
+    <p id="line1"></p>
+    <p id="line2" class="highlight"></p>
+    <p id="line3" class="blink"></p>
+
+    <p class="small">:: 90s mode enabled ::</p>
+  </div>
+
+  <script>
+    // daftar teks intro yang akan dipilih secara acak pada setiap page load
+    const intros = [
+      {
+        line1: "Welcome to N3Z.app — simple, retro, and made to be enjoyed.",
+        line2: "a little corner of the web for good vibes and pixel dreams.",
+        line3: "enjoy."
+      },
+      {
+        line1: "Welcome to N3Z.app — press start and enjoy the retro ride.",
+        line2: "low noise, high nostalgia, all in one tiny page.",
+        line3: "enjoy."
+      },
+      {
+        line1: "Welcome to N3Z.app — your friendly throwback zone on the internet.",
+        line2: "come for the nostalgia, stay for the chill.",
+        line3: "enjoy."
+      },
+      {
+        line1: "Welcome to N3Z.app — a small, retro stop in your browsing session.",
+        line2: "nothing fancy, just vibes.",
+        line3: "enjoy."
+      },
+      {
+        line1: "Welcome to N3Z.app — step into the 90s mood, where simple is stylish.",
+        line2: "crafted for slow moments and soft glows.",
+        line3: "enjoy."
+      },
+      {
+        line1: "Welcome to N3Z.app — loading good vibes from the old-school web.",
+        line2: "please do not adjust your monitor.",
+        line3: "enjoy."
+      }
+    ];
+
+    function pickRandomIntro() {
+      const randomIndex = Math.floor(Math.random() * intros.length);
+      return intros[randomIndex];
+    }
+
+    // inject teks ke DOM saat page load
+    (function renderIntro() {
+      const intro = pickRandomIntro();
+
+      const line1El = document.getElementById("line1");
+      const line2El = document.getElementById("line2");
+      const line3El = document.getElementById("line3");
+
+      if (line1El) line1El.textContent = intro.line1;
+      if (line2El) line2El.textContent = intro.line2;
+      if (line3El) line3El.textContent = intro.line3;
+    })();
+  </script>
+</body>
+</html>

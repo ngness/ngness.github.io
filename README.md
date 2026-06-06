@@ -2,4 +2,4 @@
 
 Halo! Di sini adalah tempat saya menyimpan projek-projek web development.
 
-### 🚀 Projek Aktif:
+### 🚀 Projek Aktif: ciming soon

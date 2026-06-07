@@ -1,287 +1,663 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>MindMap Quiz — Kenali Dirimu</title>
+<title>NezQuiz — Kenali Dirimu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700;900&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
 <style>
-/* ─── RESET ─────────────────────────────────── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;-webkit-font-smoothing:antialiased}
-body{font-family:'Zen Kaku Gothic Antique',sans-serif;background:#F8F9FA;color:#2F303A}
+/* ═══════════════════════════════════════════════════════════════
+   PICO v2 THEME — NezQuiz v2 "Botanical Minimal"
+   Strategy: Pico handles base, we sculpt on top.
+   Primary: Deep Forest #1C4532  |  Accent: Warm White #FAFAF8
+   ═══════════════════════════════════════════════════════════════ */
 
-/* ─── DESIGN TOKENS ─────────────────────────── */
-:root{
-  --c:#2F303A; --ocean:#0E5392; --teal:#096B89;
-  --cream:#EBE1B8; --red:#E4293B; --red2:#CF2E2E;
-  --sage:#F2F6E9; --mg:#7A7A81; --lg:#D8D8D8; --lg2:#F0F0F0;
-  --brd:#3A3A3A;
-  --fp:'Zen Kaku Gothic Antique',sans-serif;
-  --ft:'Lexend','Open Sans',sans-serif;
-  --fs:Arial,Helvetica,sans-serif;
-  --r-card:12px; --r-btn:8px; --r-opt:9px; --r-pill:42px;
-  --shadow:2px 4px 22px rgba(47,48,58,.10);
+/* ── Pico Light Theme Override ── */
+[data-theme="light"],
+:root:not([data-theme="dark"]) {
+  --pico-background-color:      #FAFAF8;
+  --pico-color:                 #1A1A18;
+  --pico-card-background-color: #FFFFFF;
+  --pico-card-border-radius:    16px;
+  --pico-card-sectioning-background-color: #F5F5F0;
+  --pico-border-radius:         10px;
+  --pico-border-color:          #E5E5DF;
+  --pico-muted-color:           #7A7A6E;
+  --pico-muted-border-color:    #EBEBЕ5;
+
+  /* Primary = Deep Forest */
+  --pico-primary:               #1C4532;
+  --pico-primary-hover:         #153828;
+  --pico-primary-focus:         rgba(28,69,50,.2);
+  --pico-primary-inverse:       #FAFAF8;
+  --pico-primary-underline:     rgba(28,69,50,.4);
+
+  /* Secondary = warm muted */
+  --pico-secondary:             #7A7A6E;
+  --pico-secondary-hover:       #5A5A50;
+  --pico-secondary-inverse:     #FFFFFF;
+
+  /* Forms */
+  --pico-form-element-background-color:             #FFFFFF;
+  --pico-form-element-border-color:                 #D8D8D0;
+  --pico-form-element-color:                        #1A1A18;
+  --pico-form-element-focus-color:                  #1C4532;
+  --pico-form-element-placeholder-color:            #BCBCB4;
+  --pico-form-element-active-border-color:          #1C4532;
+  --pico-form-element-active-inner-shadow:          0 0 0 3px rgba(28,69,50,.12);
+  --pico-form-element-invalid-border-color:         #C0392B;
+  --pico-form-element-invalid-active-inner-shadow:  0 0 0 3px rgba(192,57,43,.1);
+  --pico-form-element-valid-border-color:           #1C4532;
+
+  /* Typography */
+  --pico-font-family:           'DM Sans', system-ui, sans-serif;
+  --pico-font-size:             16px;
+  --pico-line-height:           1.65;
+  --pico-font-weight:           400;
+  --pico-typography-spacing-vertical: 1.25rem;
+
+  /* Spacing tokens — used throughout */
+  --pico-spacing:               1rem;
+  --pico-block-spacing-vertical: calc(var(--pico-spacing) * 1.5);
+  --pico-block-spacing-horizontal: calc(var(--pico-spacing) * 1.5);
+
+  /* Card shadow */
+  --pico-card-box-shadow:
+    0 1px 3px rgba(26,26,24,.06),
+    0 4px 16px rgba(26,26,24,.08),
+    0 12px 40px rgba(26,26,24,.04);
+
+  /* Ins/mark/del not used but reset */
+  --pico-ins-color: #1C4532;
+  --pico-del-color: #C0392B;
 }
 
-/* ─── KEYFRAMES ──────────────────────────────── */
-@keyframes fadeUp  {from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-@keyframes slideR  {from{opacity:0;transform:translateX(44px)}to{opacity:1;transform:none}}
-@keyframes slideL  {from{opacity:0;transform:translateX(-44px)}to{opacity:1;transform:none}}
-@keyframes ruleIn  {from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
-@keyframes checkPop{0%{transform:scale(0) rotate(-10deg)}70%{transform:scale(1.15) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
-@keyframes shake   {0%,100%{transform:none}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
-@keyframes pulse   {0%,100%{opacity:.2;transform:scale(.75)}50%{opacity:1;transform:scale(1)}}
-@keyframes ripple  {from{transform:scale(0);opacity:.4}to{transform:scale(2.8);opacity:0}}
-@keyframes spin    {to{transform:rotate(360deg)}}
-@keyframes confFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+/* ── Pico Dark Theme Override ── */
+[data-theme="dark"] {
+  --pico-background-color:      #111210;
+  --pico-color:                 #F0F0E8;
+  --pico-card-background-color: #1C1D1A;
+  --pico-border-color:          #2E2F2A;
+  --pico-muted-color:           #8A8A7E;
+  --pico-muted-border-color:    #2A2B26;
 
-/* ─── PROGRESS ──────────────────────────────── */
-#prog{position:fixed;top:0;left:0;right:0;height:3px;z-index:1001;background:var(--lg2)}
-#prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--ocean));transition:width .6s cubic-bezier(.4,0,.2,1)}
+  --pico-primary:               #4ADE80;
+  --pico-primary-hover:         #22C55E;
+  --pico-primary-focus:         rgba(74,222,128,.2);
+  --pico-primary-inverse:       #0F1F16;
 
-/* ─── TOPBAR ────────────────────────────────── */
-#topbar{
-  position:fixed;top:3px;left:0;right:0;height:52px;z-index:1000;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;background:rgba(255,255,255,.97);
-  border-bottom:1px solid rgba(216,216,216,.6);
+  --pico-secondary:             #8A8A7E;
+  --pico-secondary-hover:       #AFAFА5;
+  --pico-secondary-inverse:     #111210;
+
+  --pico-form-element-background-color:    #1C1D1A;
+  --pico-form-element-border-color:        #3A3B36;
+  --pico-form-element-color:               #F0F0E8;
+  --pico-form-element-focus-color:         #4ADE80;
+  --pico-form-element-placeholder-color:   #5A5B56;
+  --pico-form-element-active-border-color: #4ADE80;
+  --pico-form-element-active-inner-shadow: 0 0 0 3px rgba(74,222,128,.15);
+  --pico-form-element-invalid-border-color: #FC8181;
+
+  --pico-card-box-shadow:
+    0 1px 3px rgba(0,0,0,.3),
+    0 4px 16px rgba(0,0,0,.25);
 }
-.logo{font-family:var(--fp);font-weight:900;font-size:18px;color:var(--c);letter-spacing:-.5px;display:flex;align-items:flex-start;gap:1px}
-.logo em{color:var(--red);font-style:normal}
-.logo-dot{width:7px;height:7px;background:var(--red);border-radius:50%;margin-left:2px;margin-top:3px;flex-shrink:0}
-#tbr{display:flex;align-items:center;gap:12px}
-#slbl{font-family:var(--ft);font-size:11px;font-weight:500;color:var(--mg);letter-spacing:.3px}
-#chip{display:none;align-items:center;gap:6px;background:var(--sage);border:1.5px solid var(--lg);border-radius:var(--r-pill);padding:3px 10px 3px 3px;font-family:var(--ft);font-size:12px;font-weight:500;color:var(--c)}
-[data-show="true"]#chip{display:flex}
-.av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--ocean));color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
 
-/* ─── SCREEN ────────────────────────────────── */
-.scr{
-  position:fixed;top:55px;left:0;right:0;bottom:0;
-  display:flex;align-items:center;justify-content:center;
-  padding:16px 20px;overflow-y:auto;
-  visibility:hidden;opacity:0;pointer-events:none;
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL RESET ON TOP OF PICO
+   ═══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--pico-font-family); background: var(--pico-background-color); color: var(--pico-color); padding-top: 0; }
+h1, h2, h3 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; color: var(--pico-color); margin-bottom: 0; line-height: 1.15; }
+p { margin-bottom: 0; }
+a { color: var(--pico-primary); font-weight: 600; }
+
+/* ═══════════════════════════════════════════════════════════════
+   KEYFRAMES
+   ═══════════════════════════════════════════════════════════════ */
+@keyframes fadeUp   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+@keyframes slideR   { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:none} }
+@keyframes slideL   { from{opacity:0;transform:translateX(-40px)} to{opacity:1;transform:none} }
+@keyframes ruleIn   { from{opacity:0;transform:translateX(-16px)} to{opacity:1;transform:none} }
+@keyframes checkPop { 0%{transform:scale(0)} 70%{transform:scale(1.2)} 100%{transform:scale(1)} }
+@keyframes shake    { 0%,100%{transform:none} 20%,60%{transform:translateX(-7px)} 40%,80%{transform:translateX(7px)} }
+@keyframes pulse    { 0%,100%{opacity:.15;transform:scale(.7)} 50%{opacity:1;transform:scale(1)} }
+@keyframes ripple   { from{transform:scale(0);opacity:.3} to{transform:scale(3);opacity:0} }
+@keyframes spin     { to{transform:rotate(360deg)} }
+@keyframes floatIn  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+/* ═══════════════════════════════════════════════════════════════
+   PROGRESS BAR
+   ═══════════════════════════════════════════════════════════════ */
+#prog {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 1100;
+  background: var(--pico-muted-border-color);
 }
-[data-active="true"].scr{visibility:visible;opacity:1;pointer-events:all}
-[data-anim="up"].scr   .card{animation:fadeUp .42s cubic-bezier(.16,1,.3,1) both}
-[data-anim="r"].scr    .card{animation:slideR .38s cubic-bezier(.16,1,.3,1) both}
-[data-anim="l"].scr    .card{animation:slideL .38s cubic-bezier(.16,1,.3,1) both}
-#s-result[data-active="true"],#s-dl[data-active="true"]{align-items:flex-start;padding-top:16px;padding-bottom:40px}
-#s-result .card,#s-dl .card{margin:auto}
-
-/* ─── CARD ──────────────────────────────────── */
-.card{
-  background:#fff;border:2px solid var(--brd);border-radius:var(--r-card);
-  padding:44px 48px;width:100%;max-width:580px;position:relative;
-  box-shadow:var(--shadow);
+#prog-fill {
+  height: 100%; width: 0%;
+  background: var(--pico-primary);
+  transition: width .7s cubic-bezier(.4,0,.2,1);
+  border-radius: 0 2px 2px 0;
 }
-.card::after{
-  content:'';position:absolute;bottom:-2px;left:36px;right:36px;height:3px;
-  background:linear-gradient(90deg,var(--teal),var(--ocean));
-  border-radius:3px 3px 0 0;opacity:.5;
+
+/* ═══════════════════════════════════════════════════════════════
+   TOPBAR — uses Pico's nav semantics
+   ═══════════════════════════════════════════════════════════════ */
+#topbar {
+  position: fixed; top: 3px; left: 0; right: 0; height: 56px; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 36px);
+  background: color-mix(in srgb, var(--pico-background-color) 90%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--pico-border-color);
 }
-@media(max-width:600px){.card{padding:28px 20px}}
-
-/* ─── EYEBROW ───────────────────────────────── */
-.eyebrow{
-  display:flex;align-items:center;gap:8px;
-  font-family:var(--ft);font-size:10.5px;font-weight:700;letter-spacing:2.8px;text-transform:uppercase;
-  color:var(--teal);margin-bottom:12px;
+.logo {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 20px; letter-spacing: -.3px;
+  color: var(--pico-color);
+  display: flex; align-items: center; gap: 3px;
+  text-decoration: none;
 }
-.eyebrow::before{content:'';width:18px;height:2px;background:var(--teal);flex-shrink:0;display:block}
-.ch1{font-family:var(--fp);font-size:26px;font-weight:900;line-height:1.28;color:var(--c);margin-bottom:10px}
-.ch1 .hi{color:var(--teal)}
-.csub{font-family:var(--fp);font-size:14px;line-height:1.75;color:var(--mg);margin-bottom:28px}
-
-/* ─── FORM ──────────────────────────────────── */
-.fwrap{margin-bottom:14px}
-.fwrap:last-of-type{margin-bottom:22px}
-.flbl{font-family:var(--ft);font-size:12px;font-weight:600;color:var(--c);margin-bottom:5px;display:block}
-.finp{
-  width:100%;background:#fff;color:var(--c);font-family:var(--fp);font-size:14px;font-weight:500;
-  padding:11px 14px;border:2px solid var(--lg);border-radius:8px;outline:none;
-  transition:border-color .18s,box-shadow .18s;
+.logo em { color: var(--pico-primary); font-style: normal; }
+.logo-pip {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--pico-primary); margin-bottom: 10px; flex-shrink: 0;
 }
-.finp:focus{border-color:var(--ocean);box-shadow:0 0 0 3px rgba(14,83,146,.09)}
-.finp::placeholder{color:var(--lg);font-style:italic}
-.pass-wrap{position:relative}
-.pass-wrap .finp{padding-right:44px}
-.eye-btn{
-  position:absolute;right:11px;top:50%;transform:translateY(-50%);
-  background:none;border:none;cursor:pointer;color:var(--mg);padding:4px;
-  display:flex;align-items:center;transition:color .18s;
+#tbr { display: flex; align-items: center; gap: 14px; }
+#slbl {
+  font-family: var(--pico-font-family);
+  font-size: 11px; font-weight: 500; letter-spacing: .4px;
+  color: var(--pico-muted-color); text-transform: uppercase;
 }
-.eye-btn:hover{color:var(--c)}
-/* error state via data-attr */
-[data-error="true"] .finp{border-color:var(--red2);box-shadow:0 0 0 3px rgba(207,46,46,.08)}
-[data-error="true"] .ferr{display:block}
-.ferr{display:none;font-family:var(--ft);font-size:11px;color:var(--red2);margin-top:4px}
-.shake{animation:shake .4s cubic-bezier(.36,.07,.19,.97) both}
-
-/* ─── BUTTONS ───────────────────────────────── */
-.btn{
-  font-family:var(--fs);font-size:13px;font-weight:600;
-  padding:13px 26px;border-radius:var(--r-btn);border:2px solid transparent;
-  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  transition:background .16s,border-color .16s,transform .12s,box-shadow .16s;
-  position:relative;overflow:hidden;letter-spacing:.2px;white-space:nowrap;
+/* Dark mode toggle — Pico handles the actual theme switch via data-theme */
+#theme-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  --pico-background-color: transparent;
+  --pico-border-color: var(--pico-form-element-border-color);
+  --pico-color: var(--pico-muted-color);
+  --pico-box-shadow: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .2s; padding: 0; flex-shrink: 0;
 }
-.btn:active{transform:scale(.97)!important}
-.btn.red{background:var(--red);color:#fff;border-color:var(--red)}
-.btn.red:hover{background:var(--red2);border-color:var(--red2);transform:translateY(-1px);box-shadow:0 6px 18px rgba(228,41,59,.28)}
-.btn.dark{background:var(--c);color:#fff;border-color:var(--c)}
-.btn.dark:hover{background:#1a1b23;border-color:#1a1b23;transform:translateY(-1px);box-shadow:0 6px 18px rgba(47,48,58,.22)}
-.btn.outline{background:transparent;color:var(--c);border-color:var(--lg)}
-.btn.outline:hover{border-color:var(--c);background:var(--sage)}
-.btn.google{background:#fff;color:var(--c);border-color:var(--lg);width:100%}
-.btn.google:hover{border-color:var(--ocean);box-shadow:0 4px 14px rgba(14,83,146,.12);transform:translateY(-1px)}
-.btn.full{width:100%}
-.btn:disabled{opacity:.32;cursor:not-allowed;transform:none!important;box-shadow:none!important}
-.btn-back{background:none;border:none;cursor:pointer;font-family:var(--ft);font-size:12px;color:var(--mg);padding:8px 0;display:flex;align-items:center;gap:5px;transition:color .18s}
-.btn-back:hover{color:var(--c)}
-.btn-txt{background:none;border:none;cursor:pointer;font-family:var(--ft);font-size:12px;color:var(--mg);text-decoration:underline;text-underline-offset:2px;padding:6px;transition:color .18s;display:inline-flex;align-items:center;gap:5px}
-.btn-txt:hover{color:var(--c)}
-/* ripple */
-.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);width:60px;height:60px;margin-top:-30px;margin-left:-30px;animation:ripple .52s linear;pointer-events:none}
-
-/* ─── OR DIVIDER ────────────────────────────── */
-.or-row{display:flex;align-items:center;gap:10px;margin:14px 0}
-.or-line{flex:1;height:1px;background:var(--lg2)}
-.or-lbl{font-family:var(--ft);font-size:10px;color:var(--mg)}
-
-/* ─── CONSENT BOX ───────────────────────────── */
-.cbox{background:rgba(9,107,137,.05);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:22px;font-size:14px;line-height:1.75}
-.col-btns{display:flex;flex-direction:column;gap:10px}
-
-/* ─── RULES ─────────────────────────────────── */
-.rules-list{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
-.rule{display:flex;gap:14px;align-items:flex-start;opacity:0}
-[data-visible="true"].rule{animation:ruleIn .42s cubic-bezier(.16,1,.3,1) both}
-.rnum{width:30px;height:30px;border-radius:50%;flex-shrink:0;background:var(--c);color:#fff;font-family:var(--fs);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.rbody{font-size:14px;line-height:1.65;padding-top:4px}
-.rbody strong{color:var(--teal)}
-#rcta{opacity:0;pointer-events:none;transition:opacity .4s}
-[data-show="true"]#rcta{opacity:1;pointer-events:all}
-
-/* ─── PART INTRO ────────────────────────────── */
-.pscr{text-align:center;padding:8px 0}
-.pbadge{display:inline-flex;align-items:center;border:2px solid var(--brd);border-radius:var(--r-pill);padding:5px 18px;margin-bottom:18px;font-family:var(--ft);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
-.pbadge.p1{background:var(--cream);color:var(--c)}
-.pbadge.p2{background:var(--c);color:var(--cream);border-color:var(--c)}
-.picon{font-size:52px;line-height:1;margin:20px 0 22px;display:block}
-.pstats{display:flex;justify-content:center;gap:0;margin-bottom:28px;background:var(--sage);border:1px solid var(--lg);border-radius:8px;overflow:hidden}
-.pstat{text-align:center;padding:14px 24px;flex:1}
-.pstat+.pstat{border-left:1px solid var(--lg)}
-.pstat-v{font-family:var(--fp);font-size:20px;font-weight:900;color:var(--c);display:block}
-.pstat-k{font-family:var(--ft);font-size:10px;font-weight:600;color:var(--mg);text-transform:uppercase;letter-spacing:1px}
-
-/* ─── QUIZ ──────────────────────────────────── */
-.qmeta{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.qlbl{font-family:var(--ft);font-size:11px;font-weight:600;color:var(--mg);white-space:nowrap}
-.qtrack{flex:1;height:3px;background:var(--lg2);border-radius:2px;overflow:hidden}
-.qfill{height:100%;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
-[data-part="1"].qfill{background:linear-gradient(90deg,var(--teal),var(--ocean))}
-[data-part="2"].qfill{background:linear-gradient(90deg,var(--c),#3a3a4a)}
-.qtxt{font-family:var(--fp);font-size:19px;font-weight:800;line-height:1.38;color:var(--c);margin-bottom:6px}
-.qhint{font-family:var(--ft);font-size:11.5px;color:var(--mg);font-style:italic;margin-bottom:16px}
-/* kbd hints */
-.kbd-hint{display:flex;align-items:center;gap:5px;margin-bottom:10px}
-.kbd-hint span{font-family:var(--ft);font-size:10px;color:rgba(122,122,129,.7)}
-kbd{font-family:var(--fs);font-size:9px;font-weight:700;padding:1px 5px;border:1px solid var(--lg);border-radius:3px;color:var(--mg);background:var(--lg2)}
-
-/* ─── OPTIONS ───────────────────────────────── */
-.opts{display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
-.opt{
-  background:#fff;color:var(--c);font-family:var(--fp);font-size:13.5px;font-weight:500;
-  padding:13px 15px;border-radius:var(--r-opt);border:2px solid var(--lg);cursor:pointer;
-  text-align:left;display:flex;align-items:center;gap:12px;
-  transition:border-color .16s,background .16s,transform .12s;
-  position:relative;overflow:hidden;
+#theme-toggle:hover {
+  --pico-border-color: var(--pico-primary);
+  --pico-color: var(--pico-primary);
+  --pico-background-color: transparent;
 }
-.opt:hover{border-color:var(--ocean);transform:translateX(3px);background:rgba(14,83,146,.025)}
-[data-selected="true"].opt{border-color:var(--teal);background:rgba(9,107,137,.07);font-weight:700;color:var(--teal)}
-[data-selected="true"][data-part="2"].opt{border-color:var(--c);background:rgba(47,48,58,.06);color:var(--c)}
-.okey{width:26px;height:26px;border-radius:5px;flex-shrink:0;background:var(--lg2);color:var(--mg);font-family:var(--fs);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .16s,color .16s}
-[data-selected="true"] .okey{background:var(--teal);color:#fff}
-[data-selected="true"][data-part="2"] .okey{background:var(--c);color:#fff}
-.otext{flex:1}
-.ocheck{width:18px;height:18px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;opacity:0;flex-shrink:0;transition:opacity .16s}
-[data-selected="true"][data-part="2"] .ocheck{background:var(--c)}
-[data-selected="true"] .ocheck{opacity:1;animation:checkPop .3s cubic-bezier(.16,1,.3,1) both}
-.navrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:4px}
+#chip {
+  display: none; align-items: center; gap: 7px;
+  background: var(--pico-card-sectioning-background-color);
+  border: 1.5px solid var(--pico-border-color);
+  border-radius: 999px; padding: 3px 12px 3px 4px;
+  font-size: 12px; font-weight: 500; color: var(--pico-color);
+  animation: floatIn .3s ease both;
+}
+[data-show="true"]#chip { display: flex; }
+.av {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--pico-primary); color: var(--pico-primary-inverse);
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
 
-/* ─── PROCESSING ────────────────────────────── */
-.proc{text-align:center;padding:8px 0}
-.pbar-w{margin:18px 0;height:4px;background:var(--lg2);border-radius:2px;overflow:hidden}
-.pbar{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--ocean));border-radius:2px;transition:width .3s ease}
-.dots{display:flex;gap:7px;justify-content:center;margin:14px 0 8px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 1.2s ease-in-out infinite}
+/* ═══════════════════════════════════════════════════════════════
+   SCREEN SYSTEM
+   ═══════════════════════════════════════════════════════════════ */
+.scr {
+  position: fixed; top: 59px; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(12px, 3vw, 24px);
+  overflow-y: auto;
+  visibility: hidden; opacity: 0; pointer-events: none;
+}
+[data-active="true"].scr { visibility: visible; opacity: 1; pointer-events: all; }
+[data-anim="up"].scr .ncard { animation: fadeUp .44s cubic-bezier(.16,1,.3,1) both; }
+[data-anim="r"].scr  .ncard { animation: slideR .38s cubic-bezier(.16,1,.3,1) both; }
+[data-anim="l"].scr  .ncard { animation: slideL .38s cubic-bezier(.16,1,.3,1) both; }
+#s-result[data-active="true"], #s-dl[data-active="true"] {
+  align-items: flex-start; padding-top: 20px; padding-bottom: 48px;
+}
+#s-result .ncard, #s-dl .ncard { margin: auto; }
+.scr::-webkit-scrollbar { width: 3px; }
+.scr::-webkit-scrollbar-thumb { background: var(--pico-border-color); border-radius: 2px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   NCARD — Pico article used as foundation
+   We layer our brand on top of Pico's card system.
+   ═══════════════════════════════════════════════════════════════ */
+.ncard {
+  /* Pico article-like, but custom scoped */
+  background: var(--pico-card-background-color);
+  border-radius: var(--pico-card-border-radius);
+  box-shadow: var(--pico-card-box-shadow);
+  padding: clamp(28px, 5vw, 52px);
+  width: 100%; max-width: 560px;
+  border: 1px solid var(--pico-border-color);
+  position: relative; overflow: hidden; margin: 0;
+}
+/* Subtle top accent line */
+.ncard::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--pico-primary); opacity: .9;
+  border-radius: var(--pico-card-border-radius) var(--pico-card-border-radius) 0 0;
+}
+/* Background texture — very subtle grid */
+.ncard::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(var(--pico-border-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pico-border-color) 1px, transparent 1px);
+  background-size: 24px 24px; opacity: .18; border-radius: inherit;
+}
+.ncard > * { position: relative; z-index: 1; }
+.shake { animation: shake .4s cubic-bezier(.36,.07,.19,.97) both; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPOGRAPHY COMPONENTS
+   ═══════════════════════════════════════════════════════════════ */
+.tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--pico-primary); background: color-mix(in srgb, var(--pico-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pico-primary) 18%, transparent);
+  border-radius: 999px; padding: 4px 12px; margin-bottom: 20px;
+}
+.ncard h1 {
+  font-size: clamp(24px, 4vw, 32px); line-height: 1.12;
+  margin-bottom: 10px; color: var(--pico-color);
+}
+.ncard h2 {
+  font-size: clamp(20px, 3vw, 26px); line-height: 1.18;
+  margin-bottom: 10px;
+}
+.hi { color: var(--pico-primary); }
+.sub {
+  font-size: 14px; line-height: 1.75;
+  color: var(--pico-muted-color); margin-bottom: 28px;
+  font-weight: 300;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FORM — Pico handles most, we scope error states
+   ═══════════════════════════════════════════════════════════════ */
+.fwrap { margin-bottom: 6px; }
+/* Pico's label + input layout is already solid — we just tune spacing */
+label {
+  font-size: 12px; font-weight: 600; letter-spacing: .3px;
+  margin-bottom: 6px; display: block;
+  color: var(--pico-color);
+}
+.ferr {
+  display: none; font-size: 11px;
+  color: var(--pico-form-element-invalid-border-color);
+  margin-top: 4px; margin-bottom: 8px;
+  animation: floatIn .2s ease both;
+}
+[data-error="true"] .ferr { display: block; }
+[data-error="true"] input { 
+  --pico-border-color: var(--pico-form-element-invalid-border-color);
+  --pico-box-shadow: var(--pico-form-element-invalid-active-inner-shadow);
+}
+.pass-wrap { position: relative; }
+.pass-wrap input { padding-right: 46px; }
+.eye-btn {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  --pico-background-color: transparent;
+  --pico-border-color: transparent;
+  --pico-color: var(--pico-muted-color);
+  --pico-box-shadow: none;
+  padding: 4px; cursor: pointer;
+  display: flex; align-items: center;
+  transition: color .18s; width: auto; border-radius: 0;
+  margin-bottom: 0;
+}
+.eye-btn:hover {
+  --pico-background-color: transparent;
+  --pico-border-color: transparent;
+  --pico-color: var(--pico-form-element-color);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS — let Pico handle base styles, we only add behaviour
+   ═══════════════════════════════════════════════════════════════ */
+button { position: relative; overflow: hidden; margin-bottom: 0; }
+button:active { transform: scale(.97); }
+
+/* Secondary/outline hover */
+button.outline.secondary:hover:not(:disabled) {
+  --pico-border-color: var(--pico-primary);
+  --pico-color: var(--pico-primary);
+  --pico-background-color: color-mix(in srgb, var(--pico-primary) 5%, transparent);
+}
+
+/* Ghost/text button */
+.btn-ghost {
+  --pico-background-color: transparent;
+  --pico-border-color: transparent;
+  --pico-color: var(--pico-muted-color);
+  --pico-box-shadow: none;
+  font-size: 12px; padding: 8px 4px;
+  display: inline-flex; align-items: center; gap: 5px;
+  cursor: pointer; transition: color .18s; width: auto;
+}
+.btn-ghost:hover {
+  --pico-background-color: transparent;
+  --pico-border-color: transparent;
+  --pico-color: var(--pico-form-element-color);
+}
+
+/* Google button */
+button.btn-google {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  --pico-background-color: var(--pico-card-background-color);
+  --pico-border-color: var(--pico-form-element-border-color);
+  --pico-color: var(--pico-form-element-color);
+  font-weight: 500;
+}
+button.btn-google:hover {
+  --pico-border-color: var(--pico-primary);
+  box-shadow: 0 4px 16px rgba(28,69,50,.12);
+}
+
+/* Ripple — filled buttons: white; outline/ghost: primary tint */
+.ripple {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,.22);
+  width: 64px; height: 64px; margin-top: -32px; margin-left: -32px;
+  animation: ripple .5s linear; pointer-events: none;
+}
+button.outline .ripple, .btn-ghost .ripple {
+  background: color-mix(in srgb, var(--pico-primary) 15%, transparent);
+}
+
+/* OR divider */
+.or-row { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
+.or-line { flex: 1; height: 1px; background: var(--pico-border-color); }
+.or-lbl  { font-size: 10px; color: var(--pico-muted-color); letter-spacing: .5px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   CONSENT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.cbox {
+  background: color-mix(in srgb, var(--pico-primary) 5%, transparent);
+  border-left: 3px solid var(--pico-primary);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px; margin-bottom: 24px;
+  font-size: 14px; line-height: 1.75;
+  color: var(--pico-color);
+}
+.col-btns { display: flex; flex-direction: column; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RULES
+   ═══════════════════════════════════════════════════════════════ */
+.rules-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+.rule { display: flex; gap: 14px; align-items: flex-start; opacity: 0; }
+[data-visible="true"].rule { animation: ruleIn .42s cubic-bezier(.16,1,.3,1) both; }
+.rnum {
+  width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+  background: var(--pico-primary); color: var(--pico-primary-inverse);
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.rbody { font-size: 14px; line-height: 1.65; padding-top: 3px; color: var(--pico-color); }
+.rbody strong { color: var(--pico-primary); font-weight: 600; }
+#rcta { opacity: 0; pointer-events: none; transition: opacity .4s; }
+[data-show="true"]#rcta { opacity: 1; pointer-events: all; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PART INTRO
+   ═══════════════════════════════════════════════════════════════ */
+.pscr { text-align: center; }
+.part-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--pico-muted-color);
+  border: 1.5px solid var(--pico-border-color);
+  border-radius: 999px; padding: 4px 16px; margin-bottom: 20px;
+}
+.picon { font-size: 56px; line-height: 1; margin: 20px 0 24px; display: block; }
+/* Pico grid for stats */
+.pstats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; margin-bottom: 28px;
+  border: 1px solid var(--pico-border-color);
+  border-radius: var(--pico-border-radius); overflow: hidden;
+}
+.pstat {
+  text-align: center; padding: 16px 8px;
+  background: var(--pico-card-sectioning-background-color);
+}
+.pstat + .pstat { border-left: 1px solid var(--pico-border-color); }
+.pstat-v {
+  display: block; font-family: 'DM Serif Display', serif;
+  font-size: 24px; color: var(--pico-color); margin-bottom: 2px;
+}
+.pstat-k {
+  font-size: 9px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--pico-muted-color);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   QUIZ
+   ═══════════════════════════════════════════════════════════════ */
+.qmeta { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.qlbl  { font-size: 11px; font-weight: 600; color: var(--pico-muted-color); white-space: nowrap; letter-spacing: .4px; }
+/* Pico progress bar */
+progress {
+  height: 3px; width: 100%;
+  border-radius: 2px; overflow: hidden;
+  --pico-progress-color: var(--pico-primary);
+  --pico-progress-background-color: var(--pico-border-color);
+  margin-bottom: 0;
+}
+.qtxt  {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(17px, 3vw, 21px); line-height: 1.38;
+  color: var(--pico-color); margin-bottom: 6px; font-weight: 400;
+}
+.qhint {
+  font-size: 12px; color: var(--pico-muted-color); font-style: italic;
+  margin-bottom: 18px;
+}
+.kbd-hint { display: flex; align-items: center; gap: 5px; margin-bottom: 12px; }
+.kbd-hint span { font-size: 10px; color: var(--pico-muted-color); opacity: .7; }
+kbd {
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px;
+  background: var(--pico-card-sectioning-background-color);
+  border: 1px solid var(--pico-border-color);
+  border-radius: 4px; color: var(--pico-muted-color);
+  /* Pico already styles kbd — we refine */
+  --pico-color: var(--pico-muted-color);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   OPTIONS — redesigned from scratch, pill + hover transform
+   ═══════════════════════════════════════════════════════════════ */
+.opts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
+.opt {
+  display: flex; align-items: center; gap: 12px;
+  --pico-background-color: var(--pico-card-background-color);
+  --pico-border-color: var(--pico-form-element-border-color);
+  --pico-color: var(--pico-form-element-color);
+  --pico-box-shadow: none;
+  border: 1.5px solid var(--pico-border-color);
+  border-radius: 12px; padding: 13px 16px;
+  cursor: pointer; text-align: left; width: 100%;
+  font-family: var(--pico-font-family); font-size: 13.5px; font-weight: 400;
+  letter-spacing: 0; margin: 0;
+  transition: border-color .15s, background .15s, transform .12s;
+  position: relative; overflow: hidden;
+}
+.opt:hover {
+  border-color: color-mix(in srgb, var(--pico-primary) 40%, transparent);
+  --pico-background-color: color-mix(in srgb, var(--pico-primary) 4%, var(--pico-card-background-color));
+  --pico-color: var(--pico-form-element-color);
+  transform: translateX(4px);
+}
+[data-selected="true"].opt {
+  border-color: var(--pico-primary);
+  --pico-background-color: color-mix(in srgb, var(--pico-primary) 7%, var(--pico-card-background-color));
+  --pico-color: var(--pico-primary);
+  font-weight: 500;
+}
+.okey {
+  width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+  background: var(--pico-card-sectioning-background-color);
+  color: var(--pico-muted-color);
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s;
+  font-family: 'DM Sans', sans-serif;
+}
+[data-selected="true"] .okey { background: var(--pico-primary); color: var(--pico-primary-inverse); }
+.otext { flex: 1; }
+.ocheck {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--pico-primary);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; flex-shrink: 0; transition: opacity .15s;
+}
+[data-selected="true"] .ocheck { opacity: 1; animation: checkPop .28s cubic-bezier(.16,1,.3,1) both; }
+.navrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 4px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PROCESSING
+   ═══════════════════════════════════════════════════════════════ */
+.proc { text-align: center; padding: 8px 0; }
+.pbar-w { margin: 20px 0; height: 3px; background: var(--pico-border-color); border-radius: 2px; overflow: hidden; }
+.pbar   { height: 100%; width: 0%; background: var(--pico-primary); border-radius: 2px; transition: width .3s ease; }
+.dots   { display: flex; gap: 8px; justify-content: center; margin: 16px 0 10px; }
+.dot    { width: 7px; height: 7px; border-radius: 50%; background: var(--pico-primary); animation: pulse 1.3s ease-in-out infinite; }
 .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-.pmsg{font-family:var(--ft);font-size:12.5px;color:var(--mg);min-height:18px;transition:opacity .2s}
-.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.pmsg   { font-size: 12px; color: var(--pico-muted-color); min-height: 18px; transition: opacity .2s; font-style: italic; }
+.spinner{ width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: none; }
 
-/* ─── RESULT ────────────────────────────────── */
-.rhero{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:18px 20px;background:linear-gradient(135deg,var(--sage),rgba(235,225,184,.3));border:2px solid var(--brd);border-radius:10px}
-.rtype-box{flex-shrink:0;padding:10px 16px;background:var(--c);color:var(--cream);font-family:var(--fp);font-size:24px;font-weight:900;border-radius:8px;letter-spacing:3px}
-.rttl{font-family:var(--fp);font-size:17px;font-weight:900;margin-bottom:3px}
-.rsub{font-family:var(--ft);font-size:11px;color:var(--teal);font-weight:600;margin-bottom:6px}
-.iq-pill{display:inline-flex;align-items:center;gap:5px;background:var(--c);color:var(--cream);border-radius:var(--r-pill);padding:2px 10px;font-family:var(--ft);font-size:10.5px;font-weight:700}
-.rdesc{font-size:13.5px;line-height:1.75;color:var(--c);margin-bottom:18px}
-.chart-wrap{background:var(--sage);border:2px solid var(--lg);border-radius:10px;padding:14px 14px;margin-bottom:16px}
-.chart-ttl{font-family:var(--ft);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mg);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-#rc{display:block;margin:auto}
-.swgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.swcard{background:#fff;border:2px solid var(--brd);border-radius:9px;padding:14px 15px}
-.swlbl{font-family:var(--ft);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:5px}
-.swlbl.s{color:var(--teal)}.swlbl.w{color:var(--red)}
-.switem{font-size:12.5px;line-height:1.55;display:flex;align-items:baseline;gap:5px;margin-bottom:5px}
-.switem::before{content:'—';color:var(--mg);font-size:10px;flex-shrink:0}
-
-/* ─── DOWNLOAD ──────────────────────────────── */
-.dlcard{background:linear-gradient(135deg,var(--cream),#f5efce);border:2px solid var(--brd);border-radius:12px;padding:32px;text-align:center;margin-bottom:16px}
-.dlicon-wrap{font-size:44px;margin-bottom:12px}
-.dlttl{font-family:var(--fp);font-size:21px;font-weight:900;margin-bottom:7px}
-.dlsub{font-family:var(--ft);font-size:13px;color:var(--mg);line-height:1.65;margin-bottom:22px}
-.sumbox{background:#fff;border:2px solid var(--lg);border-radius:9px;padding:16px 18px}
-.sumttl{font-family:var(--ft);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mg);margin-bottom:10px;display:flex;align-items:center;gap:5px}
-.sumrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--lg2)}
-.sumrow:last-child{border-bottom:none}
-.sumk{font-family:var(--ft);font-size:12px;color:var(--mg)}
-.sumv{font-family:var(--fp);font-size:13px;font-weight:700;color:var(--c)}
-
-/* ─── TOAST ─────────────────────────────────── */
-#toast{
-  position:fixed;bottom:22px;left:50%;
-  transform:translateX(-50%) translateY(60px);
-  background:var(--c);color:#fff;font-family:var(--ft);font-size:12px;
-  padding:10px 20px;border-radius:var(--r-pill);
-  box-shadow:0 8px 24px rgba(0,0,0,.18);
-  z-index:9999;white-space:nowrap;pointer-events:none;
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+/* ═══════════════════════════════════════════════════════════════
+   RESULT
+   ═══════════════════════════════════════════════════════════════ */
+.rhero {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 22px;
+  padding: 18px 20px;
+  background: color-mix(in srgb, var(--pico-primary) 6%, var(--pico-card-background-color));
+  border: 1.5px solid color-mix(in srgb, var(--pico-primary) 20%, transparent);
+  border-radius: 12px;
 }
-[data-show="true"]#toast{transform:translateX(-50%) translateY(0)}
+.rtype-box {
+  flex-shrink: 0; padding: 10px 16px;
+  background: var(--pico-primary); color: var(--pico-primary-inverse);
+  font-family: 'DM Serif Display', serif; font-size: 22px; font-weight: 400;
+  border-radius: 10px; letter-spacing: 2px;
+}
+[data-theme="dark"] .rtype-box { background: var(--pico-primary); color: var(--pico-primary-inverse); }
+.rttl { font-family: 'DM Serif Display', serif; font-size: 16px; margin-bottom: 3px; font-weight: 400; }
+.rsub { font-size: 11px; color: var(--pico-primary); font-weight: 600; letter-spacing: .3px; margin-bottom: 7px; }
+.iq-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--pico-color); color: var(--pico-background-color);
+  border-radius: 999px; padding: 2px 10px;
+  font-size: 10px; font-weight: 600; letter-spacing: .3px;
+}
+.rdesc { font-size: 14px; line-height: 1.75; color: var(--pico-color); margin-bottom: 20px; font-weight: 300; }
+.chart-wrap {
+  background: var(--pico-card-sectioning-background-color);
+  border: 1px solid var(--pico-border-color);
+  border-radius: 12px; padding: 16px; margin-bottom: 18px;
+}
+.chart-ttl {
+  font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--pico-muted-color); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+#rc { display: block; margin: auto; }
+/* Pico grid for sw */
+.swgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+.swcard {
+  background: var(--pico-card-background-color);
+  border: 1.5px solid var(--pico-border-color);
+  border-radius: 10px; padding: 14px 15px;
+}
+.swlbl {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 5px;
+}
+.swlbl.s { color: var(--pico-primary); }
+.swlbl.w { color: var(--pico-form-element-invalid-border-color); }
+.switem {
+  font-size: 12.5px; line-height: 1.6; display: flex;
+  align-items: baseline; gap: 6px; margin-bottom: 5px;
+  color: var(--pico-color);
+}
+.switem::before { content: '·'; color: var(--pico-primary); font-size: 16px; flex-shrink: 0; line-height: 1; }
 
-/* ─── CONFETTI ──────────────────────────────── */
-#confetti-cv{position:fixed;inset:0;pointer-events:none;z-index:9998;display:none}
+/* ═══════════════════════════════════════════════════════════════
+   DOWNLOAD
+   ═══════════════════════════════════════════════════════════════ */
+.dlcard {
+  background: color-mix(in srgb, var(--pico-primary) 5%, var(--pico-card-background-color));
+  border: 1.5px solid color-mix(in srgb, var(--pico-primary) 20%, transparent);
+  border-radius: 12px; padding: 30px; text-align: center; margin-bottom: 18px;
+}
+.dlicon-wrap { font-size: 48px; margin-bottom: 12px; }
+.dlttl { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 8px; font-weight: 400; }
+.dlsub { font-size: 13px; color: var(--pico-muted-color); line-height: 1.7; margin-bottom: 22px; font-weight: 300; }
+/* Pico summary list */
+.sumbox {
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--pico-border-color); border-radius: 10px; padding: 16px 18px;
+}
+.sumttl {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--pico-muted-color); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+.sumrow {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 0; border-bottom: 1px solid var(--pico-border-color);
+}
+.sumrow:last-child { border-bottom: none; }
+.sumk { font-size: 12px; color: var(--pico-muted-color); }
+.sumv { font-family: 'DM Serif Display', serif; font-size: 14px; color: var(--pico-color); font-weight: 400; }
 
-/* ─── PRINT ─────────────────────────────────── */
-@media print{
+/* ═══════════════════════════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════════════════════════ */
+#toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(64px);
+  background: var(--pico-color); color: var(--pico-background-color);
+  font-size: 12px; font-weight: 500; letter-spacing: .2px;
+  padding: 10px 22px; border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.15);
+  z-index: 9999; white-space: nowrap; pointer-events: none;
+  transition: transform .32s cubic-bezier(.34,1.56,.64,1);
+}
+[data-show="true"]#toast { transform: translateX(-50%) translateY(0); }
+
+/* ═══════════════════════════════════════════════════════════════
+   CONFETTI + PRINT
+   ═══════════════════════════════════════════════════════════════ */
+#confetti-cv { position: fixed; inset: 0; pointer-events: none; z-index: 9998; display: none; }
+@media print {
   #prog,#topbar,#toast{display:none!important}
   .scr{position:static;visibility:visible;opacity:1;overflow:visible;height:auto}
   .scr:not(#s-result){display:none}
   #s-result{display:block;padding:0}
-  .card{box-shadow:none;border:1px solid #ccc;max-width:100%;padding:24px}
+  .ncard{box-shadow:none;border:1px solid #ccc;max-width:100%;padding:24px}
+  .ncard::after{display:none}
 }
-.scr::-webkit-scrollbar{width:4px}
-.scr::-webkit-scrollbar-thumb{background:var(--lg);border-radius:2px}
 </style>
 </head>
 <body>
 
-<!-- ── SVG ICON DEFS (inline, reusable) ── -->
+<!-- SVG ICONS -->
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
   <symbol id="ico-arrow-r" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol>
   <symbol id="ico-arrow-l" viewBox="0 0 256 256"><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/></symbol>
@@ -300,121 +676,111 @@ kbd{font-family:var(--fs);font-size:9px;font-weight:700;padding:1px 5px;border:1
   <symbol id="ico-user-plus" viewBox="0 0 256 256"><path d="M256,136a8,8,0,0,1-8,8H232v16a8,8,0,0,1-16,0V144H200a8,8,0,0,1,0-16h16V112a8,8,0,0,1,16,0v16h16A8,8,0,0,1,256,136Zm-57.87,58.85a8,8,0,0,1-12.26,10.3C165.75,181.19,147.35,172,128,172s-37.75,9.19-57.87,33.15a8,8,0,0,1-12.26-10.3c14.94-17.78,33.52-30.41,53.45-36.55a68,68,0,1,1,73.36,0C204.61,164.44,223.19,177.07,238.13,194.85ZM128,164a52,52,0,1,0-52-52A52.06,52.06,0,0,0,128,164Z"/></symbol>
   <symbol id="ico-shield" viewBox="0 0 256 256"><path d="M208,40H48A16,16,0,0,0,32,56V120c0,72,88,112,88,112s88-40,88-112V56A16,16,0,0,0,208,40Zm0,80c0,57.23-56,92.24-80,103.37C104,212.23,48,177.18,48,120V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/></symbol>
   <symbol id="ico-sparkle" viewBox="0 0 256 256"><path d="M197.58,129.06l-51.61-19-19-51.65a15.92,15.92,0,0,0-29.88,0L78.07,110l-51.65,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0l19-51.61,51.65-19a15.92,15.92,0,0,0,0-29.88ZM136,163.38V152a8,8,0,0,0-16,0v11.38L92.62,176H104a8,8,0,0,0,0,16H92.62L120,204.38V192a8,8,0,0,0,16,0v12.38L163.38,192H152a8,8,0,0,0,0-16h11.38ZM232,64h-8V56a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0V80h8a8,8,0,0,0,0-16ZM56,48H48V40a8,8,0,0,0-16,0v8H24a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0V64h8a8,8,0,0,0,0-16Z"/></symbol>
+  <symbol id="ico-sun" viewBox="0 0 256 256"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></symbol>
+  <symbol id="ico-moon" viewBox="0 0 256 256"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/></symbol>
 </svg>
 
-<!-- CONFETTI -->
 <canvas id="confetti-cv"></canvas>
-
-<!-- PROGRESS -->
 <div id="prog"><div id="prog-fill"></div></div>
 
 <!-- TOPBAR -->
 <div id="topbar">
-  <div class="logo">Mind<em>Map</em><div class="logo-dot"></div></div>
+  <div class="logo">Nez<em>Quiz</em><div class="logo-pip"></div></div>
   <div id="tbr">
     <div id="chip">
       <div class="av" id="av">U</div>
       <span id="cname"></span>
     </div>
     <div id="slbl">Langkah 1 / 10</div>
+    <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle theme">
+      <svg width="15" height="15" id="theme-ico"><use href="#ico-moon"/></svg>
+    </button>
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
-
 
 <!-- ══════════════ SIGNUP ══════════════ -->
 <div class="scr" id="s-signup" data-active="true" data-anim="up">
-<div class="card">
-  <div class="eyebrow">
-    <svg width="12" height="12"><use href="#ico-sparkle"/></svg>
+<div class="ncard">
+  <div class="tag">
+    <svg width="10" height="10"><use href="#ico-sparkle"/></svg>
     Mulai Sekarang
   </div>
-  <h1 class="ch1">Kenali dirimu<br/><span class="hi">lebih dalam.</span></h1>
-  <p class="csub">Kuis kepribadian & logika — 10 soal, hasil instan, laporan PDF gratis.</p>
+  <h1>Kenali dirimu<br/><span class="hi">lebih dalam.</span></h1>
+  <p class="sub">Kuis kepribadian &amp; logika — 10 soal, hasil instan, laporan PDF gratis.</p>
 
   <div class="fwrap" id="fw-name">
-    <label class="flbl">Nama lengkap</label>
-    <input class="finp" id="fn" type="text" placeholder="Siapa namamu?" autocomplete="name"/>
+    <label for="fn">Nama lengkap</label>
+    <input id="fn" type="text" placeholder="Siapa namamu?" autocomplete="name"/>
     <p class="ferr">Nama tidak boleh kosong.</p>
   </div>
   <div class="fwrap" id="fw-email">
-    <label class="flbl">Email</label>
-    <input class="finp" id="fe" type="email" placeholder="email@kamu.com" autocomplete="email"/>
+    <label for="fe">Email</label>
+    <input id="fe" type="email" placeholder="email@kamu.com" autocomplete="email"/>
     <p class="ferr">Masukkan email yang valid.</p>
   </div>
-  <div class="fwrap" id="fw-pass">
-    <label class="flbl">Password</label>
+  <div class="fwrap" id="fw-pass" style="margin-bottom:24px">
+    <label for="fp">Password</label>
     <div class="pass-wrap">
-      <input class="finp" id="fp" type="password" placeholder="Minimal 8 karakter"/>
-      <button class="eye-btn" id="eye-btn" type="button" onclick="togglePass()" data-visible="false">
+      <input id="fp" type="password" placeholder="Minimal 8 karakter"/>
+      <button class="eye-btn" id="eye-btn" type="button" onclick="togglePass()" data-visible="false" aria-label="Toggle password">
         <svg width="16" height="16" id="eye-icon"><use href="#ico-eye"/></svg>
       </button>
     </div>
     <p class="ferr">Password minimal 8 karakter.</p>
   </div>
 
-  <button class="btn red full" style="margin-bottom:14px" onclick="doSignup(this,event)">
+  <button class="contrast" style="width:100%;margin-bottom:12px" onclick="doSignup(this,event)">
     <svg width="14" height="14"><use href="#ico-user-plus"/></svg>
     Buat Akun &amp; Mulai
     <svg width="14" height="14"><use href="#ico-arrow-r"/></svg>
   </button>
 
-  <div class="or-row"><div class="or-line"></div><span class="or-lbl">atau masuk dengan</span><div class="or-line"></div></div>
+  <div class="or-row"><div class="or-line"></div><span class="or-lbl">atau</span><div class="or-line"></div></div>
 
-  <button class="btn google" onclick="doGoogle(this,event)">
+  <button class="btn-google" style="width:100%" onclick="doGoogle(this,event)">
     <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
     Lanjutkan dengan Google
   </button>
-  <p style="text-align:center;margin-top:12px;font-family:var(--ft);font-size:11px;color:var(--mg)">
-    Sudah punya akun? <a href="#" style="color:var(--ocean);font-weight:700;text-decoration:none" onclick="event.preventDefault();doSignup()">Masuk di sini</a>
+  <p style="text-align:center;margin-top:12px;font-size:11px;color:var(--pico-muted-color)">
+    Sudah punya akun? <a href="#" onclick="event.preventDefault();doSignup()">Masuk di sini</a>
   </p>
 </div>
 </div>
 
-
 <!-- ══════════════ AGREEMENT ══════════════ -->
 <div class="scr" id="s-agree" data-active="false">
-<div class="card">
-  <div class="eyebrow">
-    <svg width="12" height="12"><use href="#ico-shield"/></svg>
-    Persetujuan
-  </div>
-  <h1 class="ch1">Satu hal dulu<br/>sebelum kita mulai.</h1>
-  <p class="csub">Luangkan sebentar untuk membaca ini.</p>
+<div class="ncard">
+  <div class="tag"><svg width="10" height="10"><use href="#ico-shield"/></svg> Persetujuan</div>
+  <h1>Satu hal dulu<br/>sebelum kita mulai.</h1>
+  <p class="sub">Luangkan sebentar untuk membaca ini.</p>
   <div class="cbox">
-    Kuis ini adalah <strong>alat eksplorasi diri</strong> untuk pembelajaran & hiburan — bukan diagnosa psikologis resmi. Semua jawaban diproses lokal di browser, tidak dikirim ke server tanpa izinmu.
+    Kuis ini adalah <strong>alat eksplorasi diri</strong> untuk pembelajaran &amp; hiburan — bukan diagnosa psikologis resmi. Semua jawaban diproses lokal di browser, tidak dikirim ke server tanpa izinmu.
   </div>
   <div class="col-btns">
-    <button class="btn red full" onclick="goTo('s-rules','r',this,event)">
-      <svg width="14" height="14"><use href="#ico-check"/></svg>
-      Saya Mengerti &amp; Setuju
+    <button class="contrast" onclick="goTo('s-rules','r',this,event)">
+      <svg width="14" height="14"><use href="#ico-check"/></svg> Saya Mengerti &amp; Setuju
     </button>
-    <button class="btn outline full" onclick="toast('Kamu perlu menyetujui untuk melanjutkan 🙏')">
-      <svg width="14" height="14"><use href="#ico-x"/></svg>
-      Tidak Setuju
+    <button class="outline secondary" onclick="toast('Kamu perlu menyetujui untuk melanjutkan 🙏')">
+      <svg width="14" height="14"><use href="#ico-x"/></svg> Tidak Setuju
     </button>
   </div>
 </div>
 </div>
-
 
 <!-- ══════════════ RULES ══════════════ -->
 <div class="scr" id="s-rules" data-active="false">
-<div class="card">
-  <div class="eyebrow">
-    <svg width="12" height="12"><use href="#ico-list"/></svg>
-    Cara Bermain
-  </div>
-  <h1 class="ch1">4 hal yang perlu<br/>kamu tahu.</h1>
-  <div class="rules-list">
+<div class="ncard">
+  <div class="tag"><svg width="10" height="10"><use href="#ico-list"/></svg> Cara Bermain</div>
+  <h1>4 hal yang perlu<br/>kamu tahu.</h1>
+  <div class="rules-list" style="margin-top:20px">
     <div class="rule" id="r0"><div class="rnum">1</div><div class="rbody"><strong>Dua bagian quiz</strong> — Part 1 kepribadian, Part 2 logika. Masing-masing 5 soal.</div></div>
     <div class="rule" id="r1"><div class="rnum">2</div><div class="rbody"><strong>Tidak ada benar atau salah.</strong> Pilih yang paling mencerminkan dirimu hari ini.</div></div>
     <div class="rule" id="r2"><div class="rnum">3</div><div class="rbody"><strong>Jawab secara spontan</strong> — insting pertamamu biasanya paling jujur.</div></div>
     <div class="rule" id="r3"><div class="rnum">4</div><div class="rbody"><strong>Di akhir unduh laporan PDF</strong> lengkap dengan grafik radar dan analisis mendalam.</div></div>
   </div>
-  <button class="btn red full" id="rcta" onclick="goTo('s-p1i','r',this,event)">
+  <button class="contrast" id="rcta" onclick="goTo('s-p1i','r',this,event)">
     <svg width="14" height="14"><use href="#ico-rocket"/></svg>
     Siap! Mulai Kuis
     <svg width="14" height="14"><use href="#ico-arrow-r"/></svg>
@@ -422,32 +788,30 @@ kbd{font-family:var(--fs);font-size:9px;font-weight:700;padding:1px 5px;border:1
 </div>
 </div>
 
-
 <!-- ══════════════ PART 1 INTRO ══════════════ -->
 <div class="scr" id="s-p1i" data-active="false">
-<div class="card pscr">
-  <div class="pbadge p1">Part 01 / 02</div>
-  <h1 class="ch1" style="font-size:28px">Kepribadian<br/>&amp; Karakter</h1>
+<div class="ncard pscr">
+  <div class="part-badge">Part 01 / 02</div>
+  <h1>Kepribadian<br/>&amp; Karakter</h1>
   <span class="picon">🧠</span>
   <div class="pstats">
     <div class="pstat"><span class="pstat-v">5</span><span class="pstat-k">Soal</span></div>
     <div class="pstat"><span class="pstat-v">~3</span><span class="pstat-k">Menit</span></div>
     <div class="pstat"><span class="pstat-v">4</span><span class="pstat-k">Pilihan</span></div>
   </div>
-  <button class="btn red" onclick="startPart(1,this,event)">
+  <button class="contrast" onclick="startPart(1,this,event)">
     Mulai Part 1 <svg width="14" height="14"><use href="#ico-arrow-r"/></svg>
   </button>
 </div>
 </div>
 
-
 <!-- ══════════════ PART 1 Q ══════════════ -->
 <div class="scr" id="s-p1" data-active="false">
-<div class="card">
-  <div class="pbadge p1" style="margin-bottom:14px">Part 01 — Kepribadian</div>
+<div class="ncard">
+  <div class="part-badge" style="margin-bottom:12px">Part 01 — Kepribadian</div>
   <div class="qmeta">
     <span class="qlbl" id="p1n">1 / 5</span>
-    <div class="qtrack"><div class="qfill" id="p1f" data-part="1" style="width:20%"></div></div>
+    <progress id="p1f" value="1" max="5"></progress>
   </div>
   <h2 class="qtxt" id="p1q"></h2>
   <p class="qhint" id="p1h"></p>
@@ -456,42 +820,40 @@ kbd{font-family:var(--fs);font-size:9px;font-weight:700;padding:1px 5px;border:1
     <span>Tekan</span><kbd>A</kbd><kbd>B</kbd><kbd>C</kbd><kbd>D</kbd><span>untuk memilih</span>
   </div>
   <div class="navrow">
-    <button class="btn-back" id="p1bk" onclick="p1Back()">
+    <button class="btn-ghost" id="p1bk" onclick="p1Back()">
       <svg width="12" height="12"><use href="#ico-arrow-l"/></svg> Kembali
     </button>
-    <button class="btn red" id="p1nx" onclick="p1Next(this,event)" disabled>
+    <button class="contrast" id="p1nx" onclick="p1Next(this,event)" disabled>
       Lanjut <svg width="14" height="14"><use href="#ico-arrow-r"/></svg>
     </button>
   </div>
 </div>
 </div>
 
-
 <!-- ══════════════ PART 2 INTRO ══════════════ -->
 <div class="scr" id="s-p2i" data-active="false">
-<div class="card pscr">
-  <div class="pbadge p2">Part 02 / 02</div>
-  <h1 class="ch1" style="font-size:28px">Pola Pikir<br/>&amp; Logika</h1>
+<div class="ncard pscr">
+  <div class="part-badge">Part 02 / 02</div>
+  <h1>Pola Pikir<br/>&amp; Logika</h1>
   <span class="picon">💡</span>
-  <div class="pstats" style="background:rgba(47,48,58,.04)">
+  <div class="pstats">
     <div class="pstat"><span class="pstat-v">5</span><span class="pstat-k">Soal</span></div>
     <div class="pstat"><span class="pstat-v">~3</span><span class="pstat-k">Menit</span></div>
     <div class="pstat"><span class="pstat-v">1</span><span class="pstat-k">Jawaban Benar</span></div>
   </div>
-  <button class="btn dark" onclick="startPart(2,this,event)">
-    Mulai Part 2 <svg width="14" height="14" style="filter:invert(1)"><use href="#ico-arrow-r"/></svg>
+  <button class="contrast" onclick="startPart(2,this,event)">
+    Mulai Part 2 <svg width="14" height="14"><use href="#ico-arrow-r"/></svg>
   </button>
 </div>
 </div>
 
-
 <!-- ══════════════ PART 2 Q ══════════════ -->
 <div class="scr" id="s-p2" data-active="false">
-<div class="card">
-  <div class="pbadge p2" style="margin-bottom:14px">Part 02 — Pola Pikir</div>
+<div class="ncard">
+  <div class="part-badge" style="margin-bottom:12px">Part 02 — Pola Pikir</div>
   <div class="qmeta">
     <span class="qlbl" id="p2n">1 / 5</span>
-    <div class="qtrack"><div class="qfill" id="p2f" data-part="2" style="width:20%"></div></div>
+    <progress id="p2f" class="p2" value="1" max="5"></progress>
   </div>
   <h2 class="qtxt" id="p2q"></h2>
   <p class="qhint" id="p2h"></p>
@@ -500,71 +862,61 @@ kbd{font-family:var(--fs);font-size:9px;font-weight:700;padding:1px 5px;border:1
     <span>Tekan</span><kbd>A</kbd><kbd>B</kbd><kbd>C</kbd><kbd>D</kbd><span>untuk memilih</span>
   </div>
   <div class="navrow">
-    <button class="btn-back" id="p2bk" onclick="p2Back()">
+    <button class="btn-ghost" id="p2bk" onclick="p2Back()">
       <svg width="12" height="12"><use href="#ico-arrow-l"/></svg> Kembali
     </button>
-    <button class="btn dark" id="p2nx" onclick="p2Next(this,event)" disabled>
-      Lanjut <svg width="14" height="14" style="filter:invert(1)"><use href="#ico-arrow-r"/></svg>
+    <button class="contrast" id="p2nx" onclick="p2Next(this,event)" disabled>
+      Lanjut <svg width="14" height="14"><use href="#ico-arrow-r"/></svg>
     </button>
   </div>
 </div>
 </div>
 
-
 <!-- ══════════════ PROCESSING ══════════════ -->
 <div class="scr" id="s-proc" data-active="false">
-<div class="card proc">
-  <div style="font-size:46px;margin-bottom:16px">🔬</div>
-  <h2 class="ch1" style="font-size:22px;text-align:center">Menganalisis<br/>jawabanmu…</h2>
-  <p class="csub" style="text-align:center;margin-bottom:0">Memproses 10 jawaban untuk profil unikmu.</p>
+<div class="ncard proc">
+  <div style="font-size:48px;margin-bottom:18px">🔬</div>
+  <h2 style="text-align:center;font-size:22px">Menganalisis<br/>jawabanmu…</h2>
+  <p class="sub" style="text-align:center;margin-bottom:0">Memproses 10 jawaban untuk profil unikmu.</p>
   <div class="pbar-w"><div class="pbar" id="pb"></div></div>
   <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
   <div class="pmsg" id="pmsg">Mengumpulkan data…</div>
 </div>
 </div>
 
-
 <!-- ══════════════ RESULT ══════════════ -->
 <div class="scr" id="s-result" data-active="false">
-<div class="card">
-  <div class="eyebrow">
-    <svg width="12" height="12"><use href="#ico-chart"/></svg>
-    Hasil Analisismu
-  </div>
+<div class="ncard">
+  <div class="tag"><svg width="10" height="10"><use href="#ico-chart"/></svg> Hasil Analisismu</div>
   <div class="rhero">
     <div class="rtype-box" id="rtype">INFJ</div>
     <div>
       <div class="rttl" id="rttl"></div>
       <div class="rsub" id="rsub"></div>
       <div class="iq-pill" id="riq">
-        <svg width="11" height="11"><use href="#ico-brain"/></svg>
-        Logika: —
+        <svg width="10" height="10"><use href="#ico-brain"/></svg> Logika: —
       </div>
     </div>
   </div>
   <p class="rdesc" id="rdesc"></p>
   <div class="chart-wrap">
     <div class="chart-ttl">
-      <svg width="11" height="11" fill="var(--teal)"><use href="#ico-chart"/></svg>
+      <svg width="10" height="10"><use href="#ico-chart"/></svg>
       Profil Dimensi Kepribadian
     </div>
     <canvas id="rc"></canvas>
   </div>
   <div class="swgrid">
     <div class="swcard">
-      <div class="swlbl s">
-        <svg width="11" height="11"><use href="#ico-star"/></svg> Kekuatan
-      </div>
+      <div class="swlbl s"><svg width="10" height="10"><use href="#ico-star"/></svg> Kekuatan</div>
       <div id="rstr"></div>
     </div>
     <div class="swcard">
-      <div class="swlbl w">
-        <svg width="11" height="11"><use href="#ico-warn"/></svg> Kelemahan
-      </div>
+      <div class="swlbl w"><svg width="10" height="10"><use href="#ico-warn"/></svg> Kelemahan</div>
       <div id="rwk"></div>
     </div>
   </div>
-  <button class="btn red full" onclick="goTo('s-dl','r',this,event)">
+  <button class="contrast" style="width:100%" onclick="goTo('s-dl','r',this,event)">
     <svg width="14" height="14"><use href="#ico-download"/></svg>
     Unduh Laporan PDF
     <svg width="14" height="14"><use href="#ico-arrow-r"/></svg>
@@ -572,15 +924,14 @@ kbd{font-family:var(--fs);font-size:9px;font-weight:700;padding:1px 5px;border:1
 </div>
 </div>
 
-
 <!-- ══════════════ DOWNLOAD ══════════════ -->
 <div class="scr" id="s-dl" data-active="false">
-<div class="card">
+<div class="ncard">
   <div class="dlcard">
     <div class="dlicon-wrap">📋</div>
     <h2 class="dlttl">Laporan Siap!</h2>
     <p class="dlsub">Laporan lengkap kepribadianmu sudah siap. Termasuk grafik radar, kekuatan, kelemahan, dan saran pengembangan diri.</p>
-    <button class="btn dark" id="dlbtn" onclick="doPDF(this,event)" style="font-size:14px;padding:14px 32px">
+    <button class="contrast" id="dlbtn" onclick="doPDF(this,event)">
       <div class="spinner" id="dlspin"></div>
       <svg width="15" height="15" id="dlico"><use href="#ico-download"/></svg>
       <span id="dltxt">Unduh PDF Laporan</span>
@@ -588,13 +939,12 @@ kbd{font-family:var(--fs);font-size:9px;font-weight:700;padding:1px 5px;border:1
   </div>
   <div class="sumbox">
     <div class="sumttl">
-      <svg width="11" height="11" fill="var(--teal)"><use href="#ico-list"/></svg>
-      Ringkasan Hasil
+      <svg width="10" height="10"><use href="#ico-list"/></svg> Ringkasan Hasil
     </div>
     <div id="sumrows"></div>
   </div>
-  <div style="text-align:center;margin-top:14px">
-    <button class="btn-txt" onclick="doRestart()">
+  <div style="text-align:center;margin-top:16px">
+    <button class="btn-ghost" onclick="doRestart()">
       <svg width="12" height="12"><use href="#ico-repeat"/></svg>
       Ulangi kuis dari awal
     </button>
@@ -602,8 +952,26 @@ kbd{font-family:var(--fs);font-size:9px;font-weight:700;padding:1px 5px;border:1
 </div>
 </div>
 
-
 <script>
+// ══════════════════════════════════════
+//  THEME TOGGLE
+// ══════════════════════════════════════
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-ico').innerHTML=isDark?'<use href="#ico-moon"/>':'<use href="#ico-sun"/>';
+  localStorage.setItem('nqtheme',isDark?'light':'dark');
+}
+// Init theme from storage
+(()=>{
+  const saved=localStorage.getItem('nqtheme');
+  if(saved){
+    document.documentElement.setAttribute('data-theme',saved);
+    if(saved==='dark') document.getElementById('theme-ico').innerHTML='<use href="#ico-sun"/>';
+  }
+})();
+
 // ══════════════════════════════════════
 //  DATA
 // ══════════════════════════════════════
@@ -672,7 +1040,7 @@ function goTo(id,dir,btn,ev){
   const from=document.getElementById(cur),to=document.getElementById(id);
   from.style.transition='opacity .2s,transform .2s';
   from.style.opacity='0';
-  from.style.transform=dir==='r'?'translateX(-28px) scale(.98)':'translateX(28px) scale(.98)';
+  from.style.transform=dir==='r'?'translateX(-24px) scale(.98)':'translateX(24px) scale(.98)';
   setTimeout(()=>{
     from.removeAttribute('data-active'); from.removeAttribute('data-anim'); from.style.cssText='';
     to.dataset.active='true'; to.dataset.anim=dir;
@@ -703,7 +1071,7 @@ function mkRipple(btn,ev){
   const rc=btn.getBoundingClientRect();
   r.style.left=(ev.clientX-rc.left)+'px';
   r.style.top=(ev.clientY-rc.top)+'px';
-  btn.appendChild(r); setTimeout(()=>r.remove(),550);
+  btn.appendChild(r); setTimeout(()=>r.remove(),520);
 }
 
 // ══════════════════════════════════════
@@ -719,11 +1087,13 @@ function doSignup(btn,ev){
   checks.forEach(c=>{
     const v=document.getElementById(c.el).value;
     const pass=c.ok(v);
+    const inp=document.getElementById(c.el);
     document.getElementById(c.wrap).dataset.error=pass?'false':'true';
+    inp.setAttribute('aria-invalid',pass?'false':'true');
     if(!pass)ok=false;
   });
   if(!ok){
-    const card=document.querySelector('#s-signup .card');
+    const card=document.querySelector('#s-signup .ncard');
     card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
     return;
   }
@@ -772,7 +1142,8 @@ function startPart(n,btn,ev){
 function renderQ(part,idx){
   const qs=part===1?Q1:Q2,ans=part===1?a1:a2,p2=part===2,pfx=p2?'p2':'p1';
   document.getElementById(pfx+'n').textContent=`${idx+1} / 5`;
-  document.getElementById(pfx+'f').style.width=((idx+1)/5*100)+'%';
+  const pbar=document.getElementById(pfx+'f');
+  pbar.value=idx+1; pbar.max=5;
   const qEl=document.getElementById(pfx+'q'),hEl=document.getElementById(pfx+'h');
   qEl.style.opacity='0'; hEl.style.opacity='0';
   setTimeout(()=>{
@@ -786,15 +1157,15 @@ function renderQ(part,idx){
     const o=qs[idx].o[i];
     const b=document.createElement('button');
     b.className='opt'; b.dataset.selected=ans[idx]===i?'true':'false'; b.dataset.part=part;
-    b.innerHTML=`<span class="okey">${k}</span><span class="otext">${o.t}</span><span class="ocheck"><svg width="10" height="10" fill="#fff"><use href="#ico-check"/></svg></span>`;
+    b.innerHTML=`<span class="okey">${k}</span><span class="otext">${o.t}</span><span class="ocheck"><svg width="10" height="10" fill="currentColor"><use href="#ico-check"/></svg></span>`;
     b.style.opacity='0';
     b.onclick=()=>pick(part,idx,i);
     oEl.appendChild(b);
-    setTimeout(()=>{b.style.transition='opacity .25s,transform .25s';b.style.opacity='1';},i*65+30);
+    setTimeout(()=>{b.style.transition='opacity .22s,transform .22s';b.style.opacity='1';},i*60+20);
   });
   const nx=document.getElementById(pfx+'nx');
   nx.disabled=ans[idx]===null;
-  nx.style.opacity=ans[idx]===null?'.32':'1';
+  nx.style.opacity=ans[idx]===null?'.3':'1';
   document.getElementById(pfx+'bk').style.visibility=idx===0?'hidden':'visible';
 }
 function pick(part,qi,oi){
@@ -803,8 +1174,7 @@ function pick(part,qi,oi){
   document.querySelectorAll(`#${pfx}o .opt`).forEach((b,i)=>b.dataset.selected=i===oi?'true':'false');
   const nx=document.getElementById(pfx+'nx');
   nx.disabled=false; nx.style.opacity='1';
-  nx.style.transform='scale(1.06)'; setTimeout(()=>nx.style.transform='',130);
-  // auto-advance after 700ms
+  nx.style.transform='scale(1.05)'; setTimeout(()=>nx.style.transform='',120);
   clearTimeout(advTimer);
   advTimer=setTimeout(()=>{
     if(part===1&&a1[ci1]!==null) p1Next();
@@ -850,7 +1220,7 @@ function renderResult(){
   document.getElementById('rtype').textContent=rtype;
   document.getElementById('rttl').textContent=p.t;
   document.getElementById('rsub').textContent=p.s;
-  document.getElementById('riq').innerHTML=`<svg width="11" height="11"><use href="#ico-brain"/></svg> Logika: ${iq}%`;
+  document.getElementById('riq').innerHTML=`<svg width="10" height="10"><use href="#ico-brain"/></svg> Logika: ${iq}%`;
   document.getElementById('rdesc').textContent=p.d;
   document.getElementById('rstr').innerHTML=p.str.map(s=>`<div class="switem">${s}</div>`).join('');
   document.getElementById('rwk').innerHTML=p.wk.map(w=>`<div class="switem">${w}</div>`).join('');
@@ -858,44 +1228,57 @@ function renderResult(){
 }
 function drawRadar(){
   const cv=document.getElementById('rc');
-  const W=Math.min(400,cv.parentElement.clientWidth-28),H=Math.round(W*.68);
+  const W=Math.min(400,cv.parentElement.clientWidth-28),H=Math.round(W*.7);
   cv.width=W; cv.height=H;
-  const ctx=cv.getContext('2d'),cx=W/2,cy=H/2+4,R=Math.min(W,H)/2-40;
+  const ctx=cv.getContext('2d'),cx=W/2,cy=H/2+4,R=Math.min(W,H)/2-44;
+  // Read colors from CSS vars — stays in sync with theme
+  const style=getComputedStyle(document.documentElement);
+  const primary=style.getPropertyValue('--pico-primary').trim();
+  const textCol=style.getPropertyValue('--pico-color').trim();
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  const gridCol=dark?'rgba(255,255,255,.08)':'rgba(0,0,0,.07)';
+  const bgDot=style.getPropertyValue('--pico-background-color').trim();
   const labels=['Ekstrover','Terencana','Berpikir','Introver','Fleksibel','Merasa'];
   const vals=[sc.E||0,sc.J||0,sc.T||0,sc.I||0,sc.P||0,sc.F||0];
   const n=6,maxV=4,ang=i=>-Math.PI/2+(2*Math.PI/n)*i;
-  // rings
+  // Rings
   [1,2,3,4].forEach(ring=>{
-    ctx.save(); ctx.strokeStyle=ring===4?'rgba(9,107,137,.2)':'rgba(200,200,200,.35)'; ctx.lineWidth=ring===4?1.5:1;
-    if(ring<4)ctx.setLineDash([3,4]);
+    ctx.save();
+    ctx.strokeStyle=ring===4?primary.replace(')',', .25)').replace('rgb','rgba'):gridCol;
+    ctx.lineWidth=ring===4?1.5:.8;
+    if(ring<4)ctx.setLineDash([2,5]);
     ctx.beginPath();
     for(let i=0;i<n;i++){const a=ang(i),r=ring/maxV*R;i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));}
     ctx.closePath(); ctx.stroke(); ctx.restore();
   });
-  // spokes
-  ctx.save(); ctx.strokeStyle='rgba(200,200,200,.28)'; ctx.lineWidth=1;
+  // Spokes
+  ctx.save(); ctx.strokeStyle=gridCol; ctx.lineWidth=.8;
   for(let i=0;i<n;i++){const a=ang(i);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();}
   ctx.restore();
-  // fill
+  // Fill
   const norm=vals.map(v=>Math.max(.08,Math.min(v/maxV,1)));
   ctx.save(); ctx.beginPath();
   for(let i=0;i<n;i++){const a=ang(i),r=norm[i]*R;i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));}
   ctx.closePath();
   const g=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
-  g.addColorStop(0,'rgba(9,107,137,.28)'); g.addColorStop(1,'rgba(14,83,146,.06)');
+  const fillInner=dark?'rgba(74,222,128,.22)':'rgba(28,69,50,.14)';
+  const fillOuter=dark?'rgba(74,222,128,.04)':'rgba(28,69,50,.03)';
+  g.addColorStop(0,fillInner);
+  g.addColorStop(1,fillOuter);
   ctx.fillStyle=g; ctx.fill();
-  ctx.strokeStyle='#096B89'; ctx.lineWidth=2.5; ctx.stroke(); ctx.restore();
-  // dots
+  ctx.strokeStyle=primary; ctx.lineWidth=2; ctx.stroke(); ctx.restore();
+  // Dots
   for(let i=0;i<n;i++){
     const a=ang(i),r=norm[i]*R,px=cx+r*Math.cos(a),py=cy+r*Math.sin(a);
-    ctx.save(); ctx.shadowColor='rgba(9,107,137,.5)'; ctx.shadowBlur=7;
-    ctx.beginPath(); ctx.arc(px,py,5,0,Math.PI*2); ctx.fillStyle='#096B89'; ctx.fill(); ctx.restore();
-    ctx.beginPath(); ctx.arc(px,py,2.5,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
+    ctx.beginPath(); ctx.arc(px,py,4.5,0,Math.PI*2);
+    ctx.fillStyle=primary; ctx.fill();
+    ctx.beginPath(); ctx.arc(px,py,2,0,Math.PI*2);
+    ctx.fillStyle=bgDot; ctx.fill();
   }
-  // labels
-  ctx.fillStyle='#2F303A'; ctx.font='600 10.5px Lexend,sans-serif'; ctx.textBaseline='middle';
+  // Labels
+  ctx.fillStyle=textCol; ctx.font='500 10px "DM Sans",sans-serif'; ctx.textBaseline='middle';
   for(let i=0;i<n;i++){
-    const a=ang(i),lx=cx+(R+16)*Math.cos(a),ly=cy+(R+16)*Math.sin(a);
+    const a=ang(i),lx=cx+(R+17)*Math.cos(a),ly=cy+(R+17)*Math.sin(a);
     ctx.textAlign=Math.cos(a)>.15?'left':Math.cos(a)<-.15?'right':'center';
     ctx.fillText(labels[i],lx,ly);
   }
@@ -922,26 +1305,26 @@ function confetti(){
   const cv=document.getElementById('confetti-cv');
   cv.style.display='block'; cv.width=innerWidth; cv.height=innerHeight;
   const ctx=cv.getContext('2d');
-  const COLS=['#096B89','#0E5392','#EBE1B8','#E4293B','#82D7F1','#FF6900','#F78DA7','#2F303A'];
-  const ps=Array.from({length:100},()=>({
-    x:Math.random()*cv.width, y:-10-Math.random()*180,
-    w:5+Math.random()*8, h:3+Math.random()*5,
-    r:Math.random()*Math.PI*2, vx:(Math.random()-.5)*3,
-    vy:1.8+Math.random()*3.5, vr:(Math.random()-.5)*.18,
+  const COLS=['#1C4532','#4ADE80','#A7F3D0','#6EE7B7','#86EFAC','#F0FDF4','#D1FAE5','#34D399'];
+  const ps=Array.from({length:80},()=>({
+    x:Math.random()*cv.width, y:-10-Math.random()*160,
+    w:4+Math.random()*7, h:3+Math.random()*4,
+    r:Math.random()*Math.PI*2, vx:(Math.random()-.5)*2.5,
+    vy:1.6+Math.random()*3, vr:(Math.random()-.5)*.15,
     col:COLS[Math.floor(Math.random()*COLS.length)], a:1
   }));
   let fr=0;
   (function anim(){
-    ctx.clearRect(0,0,cv.width,cv.height);
-    let alive=false;
+    ctx.clearRect(0,0,cv.width,cv.height); let alive=false;
     ps.forEach(p=>{
-      p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; p.vy+=.06;
+      p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; p.vy+=.055;
       if(p.y>cv.height+20)return;
-      alive=true; if(p.y>cv.height*.65)p.a-=.02;
-      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.globalAlpha=Math.max(0,p.a);
-      ctx.fillStyle=p.col; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
+      alive=true; if(p.y>cv.height*.7)p.a-=.025;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r);
+      ctx.globalAlpha=Math.max(0,p.a); ctx.fillStyle=p.col;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
     });
-    if(alive&&fr++<240) requestAnimationFrame(anim);
+    if(alive&&fr++<220) requestAnimationFrame(anim);
     else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
   })();
 }
@@ -972,45 +1355,45 @@ function resetDl(){
 function genPDF(){
   const{jsPDF}=window.jspdf,doc=new jsPDF({unit:'mm',format:'a4'});
   const p=PR[rtype],iq=Math.round((sc.IQ/15)*100),W=doc.internal.pageSize.getWidth(),M=20;
-  doc.setFillColor(242,246,233);doc.rect(0,0,W,64,'F');
-  doc.setFillColor(9,107,137);doc.rect(0,0,W,3,'F');
-  doc.setDrawColor(200,200,200);doc.setLineWidth(.3);doc.line(0,64,W,64);
-  doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(9,107,137);
-  doc.text('MINDMAP QUIZ — LAPORAN KEPRIBADIAN PERSONAL',M,13);
-  doc.setFillColor(47,48,58);doc.roundedRect(W-M-34,7,34,20,2,2,'F');
-  doc.setFontSize(15);doc.setTextColor(235,225,184);doc.text(rtype,W-M-17,20,{align:'center'});
-  doc.setFontSize(20);doc.setTextColor(47,48,58);doc.text(p.t,M,30);
-  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(9,107,137);doc.text(p.s,M,38);
-  doc.setTextColor(122,122,129);doc.setFontSize(7.5);
+  doc.setFillColor(240,253,244);doc.rect(0,0,W,64,'F');
+  doc.setFillColor(28,69,50);doc.rect(0,0,W,3,'F');
+  doc.setDrawColor(200,210,200);doc.setLineWidth(.3);doc.line(0,64,W,64);
+  doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(28,69,50);
+  doc.text('NEZQUIZ — LAPORAN KEPRIBADIAN PERSONAL',M,13);
+  doc.setFillColor(28,69,50);doc.roundedRect(W-M-34,7,34,20,2,2,'F');
+  doc.setFontSize(15);doc.setTextColor(250,250,248);doc.text(rtype,W-M-17,20,{align:'center'});
+  doc.setFontSize(20);doc.setFont('helvetica','bold');doc.setTextColor(26,26,24);doc.text(p.t,M,30);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(28,69,50);doc.text(p.s,M,38);
+  doc.setTextColor(122,122,110);doc.setFontSize(7.5);
   doc.text(`Nama: ${uname||'Peserta'} | ${new Date().toLocaleDateString('id-ID',{year:'numeric',month:'long',day:'numeric'})} | Skor Logika: ${iq}%`,M,52);
   let y=72;
-  doc.setDrawColor(210,210,210);doc.line(M,y-4,W-M,y-4);
-  doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(47,48,58);
+  doc.setDrawColor(210,215,210);doc.line(M,y-4,W-M,y-4);
+  doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(26,26,24);
   const dl=doc.splitTextToSize(p.d,W-M*2);doc.text(dl,M,y);y+=dl.length*5.5+10;
-  doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(9,107,137);
+  doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(28,69,50);
   doc.text('DIMENSI KEPRIBADIAN',M,y);y+=6;
   const dims=[{l:'Ekstrover',v:sc.E*10||0},{l:'Introver',v:sc.I*10||0},{l:'Berpikir',v:sc.T*10||0},{l:'Merasa',v:sc.F*10||0},{l:'Terencana',v:sc.J*10||0},{l:'Fleksibel',v:sc.P*10||0},{l:'Skor Logika',v:iq}];
   const cW=(W-M*2-6)/2;
   dims.forEach((d,i)=>{
-    const col=i%2,row=Math.floor(i/2),x=M+col*(cW+6),cy=y+row*13;
-    doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(47,48,58);doc.text(d.l,x,cy);
-    doc.setFont('helvetica','bold');doc.setTextColor(9,107,137);doc.text(d.v+'%',x+cW,cy,{align:'right'});
-    doc.setFillColor(240,244,235);doc.setDrawColor(210,210,210);doc.roundedRect(x,cy+1.5,cW,3.5,1,1,'FD');
-    if(d.v>0){doc.setFillColor(9,107,137);doc.roundedRect(x,cy+1.5,Math.max(.5,cW*d.v/100),3.5,1,1,'F');}
+    const col=i%2,row=Math.floor(i/2),x=M+col*(cW+6),cy2=y+row*13;
+    doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(26,26,24);doc.text(d.l,x,cy2);
+    doc.setFont('helvetica','bold');doc.setTextColor(28,69,50);doc.text(d.v+'%',x+cW,cy2,{align:'right'});
+    doc.setFillColor(240,253,244);doc.setDrawColor(200,215,200);doc.roundedRect(x,cy2+1.5,cW,3.5,1,1,'FD');
+    if(d.v>0){doc.setFillColor(28,69,50);doc.roundedRect(x,cy2+1.5,Math.max(.5,cW*d.v/100),3.5,1,1,'F');}
   });
   y+=Math.ceil(dims.length/2)*13+8;
-  doc.setDrawColor(210,210,210);doc.line(M,y,W-M,y);y+=7;
+  doc.setDrawColor(210,215,210);doc.line(M,y,W-M,y);y+=7;
   doc.setFont('helvetica','bold');doc.setFontSize(7.5);
-  doc.setTextColor(9,107,137);doc.text('✦ KEKUATAN',M,y);
-  doc.setTextColor(228,41,59);doc.text('✦ KELEMAHAN',W/2+4,y);y+=5.5;
-  doc.setFont('helvetica','normal');doc.setTextColor(47,48,58);doc.setFontSize(9);
+  doc.setTextColor(28,69,50);doc.text('✦ KEKUATAN',M,y);
+  doc.setTextColor(192,57,43);doc.text('✦ KELEMAHAN',W/2+4,y);y+=5.5;
+  doc.setFont('helvetica','normal');doc.setTextColor(26,26,24);doc.setFontSize(9);
   const mx=Math.max(p.str.length,p.wk.length);
   for(let i=0;i<mx;i++){if(p.str[i])doc.text('• '+p.str[i],M+1,y+i*6.5);if(p.wk[i])doc.text('• '+p.wk[i],W/2+5,y+i*6.5);}
   y+=mx*6.5+10;
-  doc.setDrawColor(210,210,210);doc.line(M,y,W-M,y);y+=5;
-  doc.setFontSize(7);doc.setTextColor(155,155,155);
-  doc.text('Laporan ini untuk eksplorasi diri — bukan diagnosa psikologis resmi. © MindMap Quiz',W/2,y,{align:'center'});
-  doc.save(`MindMap_${rtype}_${uname||'Laporan'}.pdf`);
+  doc.setDrawColor(210,215,210);doc.line(M,y,W-M,y);y+=5;
+  doc.setFontSize(7);doc.setTextColor(155,160,155);
+  doc.text('Laporan ini untuk eksplorasi diri — bukan diagnosa psikologis resmi. © NezQuiz',W/2,y,{align:'center'});
+  doc.save(`NezQuiz_${rtype}_${uname||'Laporan'}.pdf`);
   toast('📄 PDF berhasil diunduh!');
 }
 
@@ -1019,7 +1402,10 @@ function genPDF(){
 // ══════════════════════════════════════
 function doRestart(){
   a1=Array(5).fill(null);a2=Array(5).fill(null);ci1=0;ci2=0;sc={};rtype='';
-  ['fn','fe','fp'].forEach(id=>{document.getElementById(id).value='';});
+  ['fn','fe','fp'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.value=''; el.removeAttribute('aria-invalid');
+  });
   ['fw-name','fw-email','fw-pass'].forEach(id=>document.getElementById(id).dataset.error='false');
   document.getElementById('chip').removeAttribute('data-show');
   document.getElementById('pb').style.width='0%';
@@ -1058,6 +1444,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   });
   window.addEventListener('resize',()=>{ if(cur==='s-result') drawRadar(); });
+  // Redraw radar when theme changes
+  document.documentElement.addEventListener('data-theme',()=>{ if(cur==='s-result') drawRadar(); });
 });
 </script>
 </body>
